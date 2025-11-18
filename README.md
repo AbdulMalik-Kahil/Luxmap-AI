@@ -1,4 +1,4 @@
-# Luxmap-AI — Analysis & Run Instructions (English)
+# Luxmap-AI — Analysis & Run Instructions
 
 Last updated: 2025-11-18
 
