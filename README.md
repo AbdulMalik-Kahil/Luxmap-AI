@@ -1,131 +1,156 @@
-# Luxmap-AI — مستودع التحليل والتعليمات بالعربية
+# Luxmap-AI — Analysis & Run Instructions (English)
 
-آخر تحديث: 2025-11-18
+Last updated: 2025-11-18
 
-ملاحظة سريعة: هذا المستند يعرّف ويحلل المستودع بعُمق، ويوفّر إرشادات عملية لتشغيل المشروع محليًا — بما في ذلك خطوات استكشاف نقاط الدخول وتهيئة البيئة وتشغيل واجهات المستخدم أو الوكلاء المحتملين. لكتابة التعليمات حاولت الاعتماد على هيكل المستودع الفعلي (الملفات والمجلدات الموجودة) دون اختراع وظائف غير موجودة. إن وجدت ملفات إضافية أو اسم نقطة دخول محددًا، عدّل الأوامر أدناه لتطابقها.
+Quick note: This document analyzes the repository in depth and provides practical instructions to run the project locally — including steps to find entry points, prepare the environment, and run possible UI or agent components. When drafting the instructions I relied on the repository structure (existing files and folders) and avoided inventing features that don't exist. If you find additional files or a specific entry-point name, adjust the commands below accordingly.
 
-ملخص قصير
+Short summary
 ---------
-Luxmap-AI مشروع بلغة Python يهدف إلى بناء وكيل/خدمات متعلقة بـ "الخرائط" و/أو واجهة مستخدم (مجلدات مسماة maps_agent و ui). التركيب اللغوي في المستودع هو Python بنسبة كبيرة.
+Luxmap-AI is a Python project likely intended to implement agents/services related to "maps" and/or a user interface (folders named maps_agent and ui). The repository's language composition is primarily Python.
 
-تحليل بنية المستودع الحالية
+Repository structure analysis
 -------------------------
-الملفات والمجلدات المكتشفة في جذر المستودع:
-- .gitignore — (معروف) لتجاهل الملفات عند الإنشاء.
-- __init__.py — وجوده يشير إلى أن الحزمة الرئيسية تُعامل كموديول Python.
-- requirements.txt — ملف الاعتمادات (ثبّت الحزم من خلاله).
-- maps_agent/ — مجلد يُرجّح احتواء كود وكيل أو منطق التعامل مع الخرائط أو خدمات الذكاء.
-- scripts/ — مجلد للنصوص المساعدة أو التشغيلية (ممكِن أن يحتوي على أوامر تشغيلية أو أوتوماتيكية).
-- ui/ — مجلد لواجهة المستخدم: قد يكون واجهة ويب (React/Vue) أو تطبيق Python لواجهة (Streamlit/Flask/FastAPI + templates).
+Files and directories discovered at the repository root:
+- .gitignore — standard file to exclude unwanted files from commits.
+- __init__.py — presence indicates the root package is treated as a Python module.
+- requirements.txt — dependency list (install with pip).
+- maps_agent/ — likely contains agent logic or code that interacts with maps or intelligence services.
+- scripts/ — helper or operational scripts (may contain run/demo scripts).
+- ui/ — user interface folder: could be a web frontend (React/Vue) or a Python UI app (Streamlit/Flask/FastAPI + templates).
 
-لغات المشروع
+Project languages
 ------------
-- Python: لوحدة/المشروع الأساسي (كما أظهرت إحصائية اللغات: Python ≈ 58974 بايت).
+- Python: primary language for the core module (language statistic: Python ≈ 58974 bytes).
 
-ماذا يعني هذا عمليًا؟
+Practical implications
 --------------------
-- من المرجّح أن المنطق الأساسي مكتوب بالبايثون داخل maps_agent أو الحزمة الجذرية.
-- واجهة المستخدم قد تكون منفصلة داخل مجلد ui — تحتاج فحصًا سريعًا لمعرفة إن كانت Node (وجود package.json) أو Python (وجود ملفات .py مثل app.py أو استخدام streamlit/flask).
+- Core logic is most likely implemented in Python under maps_agent or the root package.
+- The UI may be separate under ui/ — check whether it is a Node app (presence of package.json) or a Python app (files like app.py or usage of streamlit/flask).
 
-خطوات التحضير والتشغيل (شاملة ومتحفّظة)
+Preparation & run steps (conservative / general)
 ---------------------------------------
 
-1) استنساخ المستودع
-- من جهازك:
+1) Clone the repository
+- From your machine:
+  ```bash
   git clone https://github.com/AbdulMalik-Kahil/Luxmap-AI.git
   cd Luxmap-AI
+  ```
 
-2) إنشاء بيئة افتراضية (مستحسن)
-- باستخدام venv:
+2) Create a virtual environment (recommended)
+- Using venv:
+  ```bash
   python3 -m venv .venv
   source .venv/bin/activate   # Linux / macOS
   .venv\Scripts\activate      # Windows (PowerShell)
+  ```
 
-3) تثبيت الاعتمادات
-- اقرأ محتوى requirements.txt أولًا للتأكد:
+3) Install dependencies
+- Inspect requirements.txt first:
+  ```bash
   cat requirements.txt
-- ثم:
+  ```
+- Then:
+  ```bash
   pip install -r requirements.txt
+  ```
 
-4) فحص نقطة الدخول (طريقة الاستكشاف)
-لأن المستودع لا يحتوي README أصليًا (أو لم يتم قراءته هنا)، نحتاج لتحديد الملف التنفيذي أو نقطة الدخول:
-- ابحث عن نقاط دخول شائعة:
-  - ابحث عن وجود شرط التشغيل الرئيسي:
-    grep -R "if __name__ == '__main__'" -n .
-  - ابحث عن ملفات تشغيل شائعة في المجلدات:
-    ls maps_agent
-    ls scripts
-    ls ui
-- إن وجدت ملفًا باسم `main.py` أو `app.py` أو `run.py` داخل maps_agent أو scripts، فإن أمر التشغيل عادةً:
+4) Locate the entry point (exploration)
+Because the repository may not include a ready README or a declared entry point, identify the executable or module to run:
+- Search for common entry patterns:
+  ```bash
+  grep -R "if __name__ == '__main__'" -n .
+  ```
+- List likely folders for runnable files:
+  ```bash
+  ls maps_agent
+  ls scripts
+  ls ui
+  ```
+- If you find files like `main.py`, `app.py`, or `run.py` inside maps_agent or scripts, common run commands are:
+  ```bash
   python maps_agent/main.py
-  أو
+  # or
   python -m maps_agent.main
+  ```
 
-5) تشغيل الواجهة (إن وُجدت)
-- إن كان مجلد `ui/` يحتوي package.json → واجهة Node:
+5) Running the UI (if present)
+- If `ui/` contains package.json → Node frontend:
+  ```bash
   cd ui
   npm install
   npm start
-  (أو yarn install && yarn start)
-- إن كان `ui/` يحتوي تطبيق Streamlit أو Flask:
+  # or
+  yarn install && yarn start
+  ```
+- If `ui/` is a Python UI (Streamlit / Flask / FastAPI):
   - Streamlit:
+    ```bash
     streamlit run ui/app.py
-  - Flask/FastAPI:
+    ```
+  - Flask:
+    ```bash
     export FLASK_APP=ui/app.py
     flask run
-    أو (FastAPI مع uvicorn)
+    ```
+  - FastAPI (uvicorn):
+    ```bash
     uvicorn ui.app:app --reload
+    ```
 
-6) إعداد متغيّرات البيئة (Env)
-- من المرجّح أن المشروع يحتاج مفاتيح أو إعدادات (مثال: مفاتيح API للخرائط أو لمزودات الذكاء). أنشئ ملف `.env` أو استخدم export:
-  # مثال ملف .env
+6) Environment variables (Env)
+- The project probably needs API keys or configuration (e.g., map provider API key, AI provider key). Create a `.env` or export variables:
+  Example `.env`:
+  ```env
   OPENAI_API_KEY=your_openai_key
   MAPS_API_KEY=your_maps_provider_key
   DATABASE_URL=sqlite:///luxmap.db
+  ```
 
-- للتأكد، افحص الكود بحثًا عن os.getenv or environs:
+- To confirm usage, search code for env access:
+  ```bash
   grep -R "os.getenv" -n .
+  ```
 
-تشغيل خطوات اختبارية سريعة
+Quick smoke tests
 -------------------------
-- بعد التثبيت، نفّذ:
+- After installing dependencies, test importability:
+  ```bash
   python -c "import maps_agent; print('maps_agent imported')"
-  (هذا يتحقق من أن الحزمة قابلة للاستيراد دون أخطاء)
+  ```
+  (This checks that the package imports without errors.)
 
-- أو شغّل سكربت صغير إذا وُجد script للتجربة:
+- Or run a demo script if present:
+  ```bash
   python scripts/demo.py
-  (استبدل بالاسم الموجود فعليًا)
+  ```
+  (Replace with the actual script name if different.)
 
-مقترح ملف .env.template
+Suggested .env.template
 -----------------------
-# ضع هذا الملف باسم .env واملأ القيم
+Create a `.env` file from this template and fill values:
+```env
 OPENAI_API_KEY=
 MAPS_API_KEY=
 FLASK_ENV=development
 PORT=8000
+```
 
-نصائح لاستكشاف الأخطاء
+Troubleshooting tips
 -----------------------
-- إذا واجهت ModuleNotFoundError:
-  - تأكد أنك تعمل داخل البيئة الافتراضية وركبت الاعتمادات.
-  - تأكد من أن مسار الحزمة صحيح (راجع __init__.py إن احتجت).
-- أخطاء متعلقة بالـ API Keys:
-  - تأكد من تحميل المتغيرات من .env (يمكن استخدام python-dotenv).
-- أخطاء متعلقة بالإصدارات:
-  - اطلع على requirements.txt وحدد الإصدارات، وإذا لزم جرّب إنشاء بيئة Conda أو استخدام pip-tools لتجميد الإصدارات.
+- ModuleNotFoundError:
+  - Ensure the virtual environment is activated and dependencies are installed.
+  - Verify package paths and __init__.py presence if Python packages are not found.
+- API key errors:
+  - Make sure env variables are loaded (consider using python-dotenv).
+- Version conflicts:
+  - Inspect requirements.txt for pinned versions. If issues persist, consider creating a clean Conda environment or use pip-tools to pin compatible versions.
 
-اقتراحات لتحسين README (إن رغبت أن أُنشئ PR)
+Next improvements for README (if you want me to open a PR)
 -------------------------------------------
-لإنشاء README عملي ونهائي نحتاج إلى:
-- اسم نقطة الدخول / أوامر التشغيل المباشرة (مثال: python -m maps_agent.run).
-- مثال لملف .env وقائمة المتغيرات المطلوبة.
-- لقطات شاشة أو سيناريو استخدام (مثال: إرسال عنوان والحصول على خريطة أو إحداثيات).
-- إن كان هناك واجهة Node — ملف package.json أو تعليمات npm.
-- وصف الاعتمادات الأساسية (مكتبات رئيسية في requirements.txt).
-
-قالب README مقترح (ما سأدرجه هنا أدناه) — جاهز للتعديل حسب نقاط الدخول الفعلية
---------------------------------------------------------------------------------
-
-ما سأقدّمه الآن هو README جاهز للنشر (تكيّفه بسيط إن غيرت أسماء الملفات أو أوامر التشغيل). أدرجته بنسخة عربية تفصيلية تتضمن كل ما سبق مع أمثلة أوامر.
-
-
+To create a polished, actionable README we would need:
+- Exact entry point(s) and direct run commands (example: python -m maps_agent.run).
+- A sample `.env` listing required environment variables and their meaning.
+- Example usage / screenshots / sample requests (e.g., send an address and get back a map or coordinates).
+- If there's a Node UI, include package.json info and npm commands.
+- A brief list of key dependencies (highlighting major libraries from requirements.txt).
